@@ -2,10 +2,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 const inter = Inter({ subsets: ["latin"] });
-// import ClientProviders from "@/components/ClientProviders";
 
 const ClientProviders = dynamic(() => import("@/components/ClientProviders"), {
-  ssr: false,
+  ssr: true,
 });
 
 export const metadata = {

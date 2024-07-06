@@ -1,35 +1,10 @@
-"use client";
-
 import React from "react";
 import "./Product.css";
-import { useStateValue } from "@/components/StateProvider";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import ProductButton from "./ProductButton";
 
 const Product = ({ id, title, image, price, rating }) => {
-  const [{}, dispatch] = useStateValue();
-
-  const notify = (statement) => {
-    toast.success("Item added to Cart !");
-  };
-  const addToBasket = () => {
-    dispatch({
-      type: "ADD_TO_BASKET",
-      item: {
-        id: id,
-        title: title,
-        image: image,
-        price: price,
-        rating: rating,
-      },
-    });
-    notify();
-    console.log("added to basket",title,image,price,rating);
-  };
-
   return (
     <>
-      
       <div className="product">
         <div className="product__info">
           <p className="title">{title}</p>
@@ -46,11 +21,10 @@ const Product = ({ id, title, image, price, rating }) => {
           </div>
         </div>
         <img src={image} alt={title} />
-        <button onClick={addToBasket}>Add to Basket</button>
+        <ProductButton id={id} title={title} image={image} price={price} rating={rating}/>
       </div>
     </>
   );
-  
 };
 
 export default Product;

@@ -38,6 +38,17 @@
   height: 30px;
   border-radius: 3px;
 }
+
+.btn {
+  background-color: #eca63d;
+  cursor: pointer;
+  margin-top: 5px;
+  border: 1px solid;
+  border-color: #a88734, #9c7e31, #846a29;
+  outline: none;
+  height: 30px;
+  border-radius: 3px;
+}
 .product > button:hover {
   background-color: #e99820;
 }

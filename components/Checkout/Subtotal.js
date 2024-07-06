@@ -10,6 +10,8 @@ import Link from "next/link";
 const Subtotal = () => {
   const [{ basket }] = useStateValue();
 
+  if (basket.length == 0) return <></>;
+
   return (
     <div className="subtotal">
       <CurrencyFormat

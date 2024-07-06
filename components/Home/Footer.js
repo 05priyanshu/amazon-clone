@@ -1,16 +1,11 @@
-"use client";
-
 import React from "react";
 import "./Footer.css";
-import ScrollUpButton from "react-scroll-up-button";
+import BackToTop from "./BackToTop";
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="footer__backToTop">
-        <ScrollUpButton />
-        Back to top
-      </div>
+      <BackToTop />
       <div className="footer__linkContainer">
         <div className="footer__links">
           <h3 className="footer__linksTitle">Get to Know Us</h3>
