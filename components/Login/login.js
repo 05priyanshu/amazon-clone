@@ -1,31 +1,49 @@
-"use client";
-import React, { useState } from "react";
+
+import React from "react";
 import Link from "next/link";
 import "./Login.css";
+import { redirect } from "next/dist/server/api-utils";
 // import { Link, useHistory } from "react-router-dom";
 // import { auth } from "./firebase";
 // import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-// import { signIn } from "next-auth/react";
+import { signIn } from "@/auth";
+import { connectToDatabase } from "@/utils/DbConnect";
+import { users } from "@/models/userModel";
 
-// toast.configure();
+
 
 const Login = () => {
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  // const notify = (statement) => {
-  //   toast.error(statement, { position: toast.POSITION.TOP_CENTER });
-  // };
 
-  // const user = (e) => {
-  //   e.preventDefault();
-  //   auth
-  //     .signInWithEmailAndPassword(userEmail, userPassword)
-  //     .then((auth) => {
-  //       history.push("/");
-  //     })
-  //     .catch((e) => notify(e.message));
-  // };
+
+  const loginhandler = async (formdata) => {
+    "use server";
+
+    const email = formdata.get("email");
+    const password = formdata.get("password");
+   
+      console.log(email,password);
+
+    await connectToDatabase();
+    console.log("hi1");
+
+    try{
+      console.log("hi2");
+      const userdata = await signIn("credentials", { 
+        email,
+        password,
+        // redirect:true,
+        // redirectTo:"/",
+      });
+      console.log(userdata);
+
+      console.log("hi3");
+
+    }catch(error){
+      return error.message;
+
+    }
+  };
 
   return (
     <div className="login">
@@ -38,28 +56,24 @@ const Login = () => {
       </Link>
       <div className="login__container">
         <h1>Sign in</h1>
-        <form action="">
+        <form action={loginhandler}>
           <h5 className="login__label">E-mail</h5>
           <input
             type="email"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-            name=""
+            
+            name="email"
             id=""
           />
           <h5 className="login__label">Password</h5>
           <input
             type="password"
-            value={userPassword}
-            onChange={(e) => setUserPassword(e.target.value)}
-            name=""
+           
+            name="password"
             id=""
           />
           <button
             type="submit"
-            onClick={() => {
-              // signIn("credentials", { userEmail, userPassword });
-            }}
+           
             className="login__signinButton"
           >
             Login

@@ -1,7 +1,30 @@
 import Link from "next/link";
 import "./Signup.css";
-
+import {hash} from "bcrypt"
+import { redirect } from "next/dist/server/api-utils";
+import { connectToDatabase } from "@/utils/DbConnect";
+import { users } from "@/models/userModel";
 const Signup = () => {
+  const signUphandler = async (formdata)=>{
+          "use server"
+
+          const name = formdata.get("name")
+          const email = formdata.get("email")
+          const password = formdata.get("password")
+          if(!name || !email || !password){
+            throw new Error("please provide all the fields")
+          }
+          //connection with database
+          await connectToDatabase();
+          const user = await users.findOne({email});
+          if(user) throw new Error("user already exists")
+
+          const hashedPassword = await hash(password,10)  
+
+          //create new user 
+          await users.create({name,email,password:hashedPassword});
+          // redirect("/login")
+}
   return (
     <div className="signup">
       <Link href="/">
@@ -13,29 +36,29 @@ const Signup = () => {
       </Link>
       <div className="signup__container">
         <h1>Create Account</h1>
-        <form action="">
-          <h5 className="signup__label">E-mail</h5>
+        <form action={signUphandler}>
+          <h5 className="signup__label">Name</h5>
           <input
-            type="email"
+            type="text"
             // value={userEmail}
             // onChange={(e) => setUserEmail(e.target.value)}
-            name=""
+            name="name"
+            id=""
+          />
+          <h5 className="signup__label">Email</h5>
+          <input
+            type="email"
+            // value={userPassword}
+            // onChange={(e) => setUserPassword(e.target.value)}
+            name="email"
             id=""
           />
           <h5 className="signup__label">Password</h5>
           <input
             type="password"
-            // value={userPassword}
-            // onChange={(e) => setUserPassword(e.target.value)}
-            name=""
-            id=""
-          />
-          <h5 className="signup__label">Confirm Password</h5>
-          <input
-            type="password"
             // value={confirmUserPassword}
             // onChange={(e) => setConfirmUserPassword(e.target.value)}
-            name=""
+            name="password"
             id=""
           />
           <button
